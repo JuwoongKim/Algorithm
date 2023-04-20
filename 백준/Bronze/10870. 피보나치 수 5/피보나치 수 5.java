@@ -2,31 +2,29 @@ import java.util.*;
 import java.util.stream.*;
 import java.io.*;
 
-public class Main { 
+// bottom up 
 
+class Main{
 
-    public static void main (String [] args) throws IOException {
+    public static void main(String [] args) throws IOException{
 
-        BufferedReader br = new BufferedReader( new InputStreamReader (System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());        
+
+        int [] dp = new int [N+1];
+
+        dp[0] =0;   
         
-        int n = Integer.parseInt(br.readLine());
+        if(N>=1)
+            dp[1] =1;
+        
+        if(N>=2)
+            for(int i =2; i<=N; i++)
+                dp[i] = dp[i-1] + dp[i-2];
+        
+        System.out.println(dp[N]);
 
-        int [] memo = new int [n+1];
-
-        if(n==0){
-            memo[0] = 0;
-            System.out.println(memo[n]);
-            return;
-        }
-
-        memo[0] = 0; memo[1] =1;
-
-        if(n !=0 && n != 1){
-            for(int i=2; i<=n ; i++){
-                memo[i]= memo[i-1] + memo[i-2];
-            }
-        }
-        System.out.println(memo[n]);
-
-    }   
+    }
 }
+
+
