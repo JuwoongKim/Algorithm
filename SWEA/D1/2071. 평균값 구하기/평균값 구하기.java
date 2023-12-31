@@ -1,23 +1,23 @@
-
-import java.util.*;
-import java.util.stream.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Solution {
 
-	public static void main (String [] args) throws Exception {
-		
+	public static void main(String[] args) throws IOException {
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	
-		int N = Integer.parseInt(br.readLine());
-        
-        
-		for(int i =0; i<N; i++) {
-			int [] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-			double sum = (double)Arrays.stream(arr).sum();
-			double n = (double)arr.length;
-			System.out.println(String.format("#%d %d",i+1, (int)Math.round(sum/n)));
-			
-		}	
-	}	
+
+		int n = Integer.parseInt(br.readLine());
+
+		for (int i = 1; i <= n; i++) {
+			double answer = Arrays.stream(br.readLine().split(" "))
+				.mapToDouble(Double::parseDouble)
+				.average()
+				.orElseThrow(() -> new RuntimeException());
+
+			System.out.println(String.format("#%d %d", i, Math.round(answer)));
+		}
+	}
 }
