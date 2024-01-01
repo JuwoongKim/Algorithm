@@ -1,26 +1,28 @@
-
-import java.util.*;
-import java.util.stream.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Solution {
 
-	public static void main (String [] args) throws Exception {
-		
+	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	
-		int N = Integer.parseInt(br.readLine());
-        
-		for(int i =1; i<=N; i++) {
-			String temp = br.readLine();
+		Integer tc = Integer.parseInt(br.readLine());
+
+		for (int i = 1; i <= tc; i++) {
+			String input = br.readLine();
+
 			int answer = 0;
-			for(int j=1; j<=10; j++) {
-				if(temp.substring(0,j).equals(temp.substring(j, j*2))) {
-					answer = j;
+			for (int length = 1; length <= 10; length++) {
+				String first = input.substring(0, length);
+				String second = input.substring(length, 2 * length);
+				String third = input.substring(2 * length, 3 * length);
+
+				if (first.equals(second) && first.equals(third)) {
+					answer = length;
 					break;
 				}
 			}
-			System.out.printf("#%d %d%n",i,answer);
-		}		
-	}	
+			System.out.println(String.format("#%d %d", i, answer));
+		}
+	}
 }
