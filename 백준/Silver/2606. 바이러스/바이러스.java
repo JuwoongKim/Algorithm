@@ -1,49 +1,60 @@
 import java.util.*;
+import java.util.stream.*;
 import java.io.*;
-
 
 public class Main {
 
-    public static boolean [] visit ;
-    public static void main(String[] args) throws IOException{
 
-        Main T = new Main();
-        BufferedReader br =new BufferedReader( new InputStreamReader(System.in));
-        StringTokenizer st ;
-        int V = Integer.parseInt(br.readLine());
-        int E = Integer.parseInt(br.readLine());
+    public static void main (String [] args) throws IOException {
 
-        visit = new boolean [V+1];
+        BufferedReader br = new BufferedReader( new InputStreamReader (System.in));
+        
+        int numOfCom = Integer.parseInt(br.readLine());
+        int numOfLink = Integer.parseInt(br.readLine());
 
-        List<ArrayList<Integer>> graph = new ArrayList<>();
-        for(int i=0; i<=V; i++) graph.add(new ArrayList<>());
 
-        for(int i =0; i<E; i++){
-            st = new StringTokenizer(br.readLine());
-            int first =Integer.parseInt(st.nextToken());
-            int second = Integer.parseInt(st.nextToken());
-            graph.get(first).add(second);
-            graph.get(second).add(first);
+        boolean [] visit = new boolean[numOfCom+1];
+        
+        List<List<Integer>> graph = new ArrayList<>();
+        for(int i =0; i<= numOfCom; i++){
+            graph.add(new ArrayList<>());
         }
-        System.out.println(T.solution(graph));
-    }
 
-    public int solution (List<ArrayList<Integer>> graph){
+        // 그래프 연결 정보 생성 
+        for(int i =0; i< numOfLink; i++){
 
-        int answer = -1; //자기자신 뺴야함
-        DFS(1,graph);
-        for(boolean temp : visit){
-            if(temp ==true) answer ++;
+            int [] input = Stream.of(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+
+            graph.get(input[0]).add(input[1]);
+            graph.get(input[1]).add(input[0]);
+
         }
-        return answer;
-    }
 
-    public void DFS(int V, List<ArrayList<Integer>> graph){
-        for(int adjV :  graph.get(V)){
-            if(!visit[adjV]){
-                visit[adjV]= true;
-                DFS(adjV,graph);
+
+        // 1번시작으로 그래프 탐색  BFS  --> 다음에는 dfs로 풀어보기 
+
+        Queue<Integer> q = new LinkedList<>();
+        int answer = 0;
+
+        q.offer(1);
+        visit[1] = true;
+
+        while(!q.isEmpty()){
+
+            int temp = q.poll();
+
+            for(int idx : graph.get(temp)){
+
+                if(visit[idx]) continue;
+
+                q.offer(idx);
+                visit[idx] = true;
+                answer ++;
             }
+
         }
-    }
+        
+        System.out.println(answer);
+    }   
+
 }
